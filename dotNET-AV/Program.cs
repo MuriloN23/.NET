@@ -60,5 +60,30 @@ namespace POGDevConsultorio
             }
         }
     }
+    class Program
+    {
+        static void Main()
+        {
+            try
+            {
+                Medico medico1 = new Medico("Dr. Murilo", new DateTime(1992, 3, 12), "12345678901", "CRM12345");
+                Medico medico2 = new Medico("Dr. Carlos", new DateTime(1995, 3, 11), "54398432109", "CRM65421");
+                Medico medico3 = new Medico("Dra. Maria", new DateTime(1985, 5, 10), "98765432109", "CRM54321");
+                Medico medico4 = new Medico("Dra. Carla", new DateTime(1991, 4, 7), "82514276598", "CRM73416");
 
+                Consultorio consultorio = new Consultorio();
+
+                consultorio.AdicionarMedico(medico1);
+                consultorio.AdicionarMedico(medico2);
+                consultorio.AdicionarMedico(medico3);
+                consultorio.AdicionarMedico(medico4);
+
+                consultorio.GerarRelatorioMedicos();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro: {ex.Message}");
+            }
+        }
+    }
 }
