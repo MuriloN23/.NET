@@ -23,4 +23,42 @@ namespace POGDevConsultorio
             }
         }
     }
+
+    public class Medico : Pessoa
+    {
+        public string CRM { get; set; }
+
+        public Medico(string nome, DateTime dataNascimento, string cpf, string crm)
+            : base(nome, dataNascimento, cpf)
+        {
+            CRM = crm;
+        }
+    }
+
+    public class Consultorio
+    {
+
+        private List<Medico> medicos;
+
+        public Consultorio()
+        {
+            medicos = new List<Medico>();
+        }
+
+        public void AdicionarMedico(Medico medico)
+        {
+            medicos.Add(medico);
+        }
+
+        public void GerarRelatorioMedicos()
+        {
+            Console.WriteLine("Relatório de Médicos:");
+
+            foreach (var medico in medicos)
+            {
+                Console.WriteLine($"Nome: {medico.Nome}, CRM: {medico.CRM}");
+            }
+        }
+    }
+
 }
