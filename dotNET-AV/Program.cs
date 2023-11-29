@@ -239,21 +239,39 @@ namespace POGDevConsultorio
                 Medico medico2 = new Medico("Dr. Carlos", new DateTime(1995, 3, 11), "54398432109", "CRM65421");
                 Medico medico3 = new Medico("Dra. Maria", new DateTime(1985, 11, 10), "98765432109", "CRM54321");
                 Medico medico4 = new Medico("Dra. Carla", new DateTime(1991, 4, 7), "82514276598", "CRM73416");
+                Medico medico5 = new Medico("Dr. Rafael", new DateTime(1988, 8, 20), "45678901234", "CRM98765");
+                Medico medico6 = new Medico("Dra. Ana", new DateTime(1990, 6, 15), "67890123456", "CRM87654");
+                Medico medico7 = new Medico("Dr. Felipe", new DateTime(1983, 5, 25), "34567890123", "CRM76543");
+                Medico medico8 = new Medico("Dra. Beatriz", new DateTime(1987, 9, 5), "89012345678", "CRM65432");
+
 
                 Paciente paciente1 = new Paciente("Goku", new DateTime(2001, 11, 1), "11223344556", Sexo.Masculino, "Enjoo");
                 Paciente paciente2 = new Paciente("Naruto", new DateTime(1988, 9, 16), "99352466554", Sexo.Masculino, "Dor de barriga");
                 Paciente paciente3 = new Paciente("João", new DateTime(2000, 2, 15), "62934254556", Sexo.Masculino, "Febre");
                 Paciente paciente4 = new Paciente("Ana", new DateTime(1998, 7, 20), "99887766554", Sexo.Feminino, "Dor de cabeça");
+                Paciente paciente5 = new Paciente("Mariana", new DateTime(1995, 5, 10), "77553322111", Sexo.Feminino, "Tontura");
+                Paciente paciente6 = new Paciente("Lucas", new DateTime(1982, 8, 25), "88776655443", Sexo.Masculino, "Resfriado");
+                Paciente paciente7 = new Paciente("Julia", new DateTime(2005, 4, 3), "11223344550", Sexo.Feminino, "Alergia");
+                Paciente paciente8 = new Paciente("Pedro", new DateTime(1992, 12, 12), "66778899001", Sexo.Masculino, "Problemas digestivos");
+
 
                 consultorio.AdicionarMedico(medico1);
                 consultorio.AdicionarMedico(medico2);
                 consultorio.AdicionarMedico(medico3);
                 consultorio.AdicionarMedico(medico4);
+                consultorio.AdicionarMedico(medico5);
+                consultorio.AdicionarMedico(medico6);
+                consultorio.AdicionarMedico(medico7);
+                consultorio.AdicionarMedico(medico8);
 
                 consultorio.AdicionarPaciente(paciente1);
                 consultorio.AdicionarPaciente(paciente2);
                 consultorio.AdicionarPaciente(paciente3);
                 consultorio.AdicionarPaciente(paciente4);
+                consultorio.AdicionarPaciente(paciente5);
+                consultorio.AdicionarPaciente(paciente6);
+                consultorio.AdicionarPaciente(paciente7);
+                consultorio.AdicionarPaciente(paciente8);
 
                 consultorio.RelatorioMedicosIdade(30, 50);
                 consultorio.RelatorioPacientesIdade(18, 40);
