@@ -29,6 +29,7 @@ namespace POGDevConsultorio
 
         public Pessoa(string nome, DateTime dataNascimento, string cpf)
         {
+            this.cpf = string.Empty;
             Nome = nome;
             DataNascimento = dataNascimento;
             CPF = cpf;
@@ -47,7 +48,6 @@ namespace POGDevConsultorio
         Feminino
     }
 
-    // Classe para representar Pacientes, derivada de Pessoa
     public class Paciente : Pessoa
     {
         public Sexo Sexo { get; private set; }
@@ -60,14 +60,12 @@ namespace POGDevConsultorio
             Sintomas = sintomas;
         }
 
-        // Sobrescrevendo o método Apresentar para incluir informações específicas de Paciente
         public override void Apresentar()
         {
             Console.WriteLine($"Paciente - Sexo: {Sexo}, {base.Nome}, {base.DataNascimento.ToShortDateString()}, CPF: {base.CPF}, Sintomas: {Sintomas}");
         }
     }
 
-    // Classe para representar Médicos, derivada de Pessoa
     public class Medico : Pessoa
     {
         public string CRM { get; private set; }
@@ -78,14 +76,12 @@ namespace POGDevConsultorio
             CRM = crm;
         }
 
-        // Sobrescrevendo o método Apresentar para incluir informações específicas de Médico
         public override void Apresentar()
         {
             Console.WriteLine($"Médico - CRM: {CRM}, {base.Nome}, {base.DataNascimento.ToShortDateString()}, CPF: {base.CPF}");
         }
     }
 
-    // Classe para representar um Consultório
     public class Consultorio
     {
         private List<Pessoa> pessoas;
@@ -137,7 +133,6 @@ namespace POGDevConsultorio
                 consultorio.AdicionarPessoa(paciente2);
                 consultorio.AdicionarPessoa(paciente3);
                 consultorio.AdicionarPessoa(paciente4);
-
 
                 consultorio.GerarRelatorioPessoas();
             }
