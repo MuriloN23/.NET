@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace POGDevConsultorio
 {
@@ -116,7 +117,7 @@ namespace POGDevConsultorio
 
         public void GerarRelatorioPessoas()
         {
-            Console.WriteLine("Relatório de Médicos:");
+            Console.WriteLine("\nRelatório de Médicos:");
             foreach (var medico in medicos)
             {
                 medico.Apresentar();
@@ -126,6 +127,78 @@ namespace POGDevConsultorio
             foreach (var paciente in pacientes)
             {
                 paciente.Apresentar();
+            }
+        }
+
+        public void RelatorioMedicosIdade(int idadeMinima, int idadeMaxima)
+        {
+            var medicosFiltrados = medicos.Where(medico =>
+                (DateTime.Now.Year - medico.DataNascimento.Year) >= idadeMinima &&
+                (DateTime.Now.Year - medico.DataNascimento.Year) <= idadeMaxima);
+
+            Console.WriteLine($"\nRelatório de Médicos com idade entre {idadeMinima} e {idadeMaxima} anos:");
+            foreach (var medico in medicosFiltrados)
+            {
+                medico.Apresentar();
+            }
+        }
+
+        public void RelatorioPacientesIdade(int idadeMinima, int idadeMaxima)
+        {
+            var pacientesFiltrados = pacientes.Where(paciente =>
+                (DateTime.Now.Year - paciente.DataNascimento.Year) >= idadeMinima &&
+                (DateTime.Now.Year - paciente.DataNascimento.Year) <= idadeMaxima);
+
+            Console.WriteLine($"\nRelatório de Pacientes com idade entre {idadeMinima} e {idadeMaxima} anos:");
+            foreach (var paciente in pacientesFiltrados)
+            {
+                paciente.Apresentar();
+            }
+        }
+
+        public void RelatorioPacientesSexo(Sexo sexo)
+        {
+            var pacientesFiltrados = pacientes.Where(paciente => paciente.Sexo == sexo);
+
+            Console.WriteLine($"\nRelatório de Pacientes do sexo {sexo}:");
+            foreach (var paciente in pacientesFiltrados)
+            {
+                paciente.Apresentar();
+            }
+        }
+
+        public void RelatorioPacientesOrdemAlfabetica()
+        {
+            var pacientesOrdenados = pacientes.OrderBy(paciente => paciente.Nome);
+
+            Console.WriteLine("\nRelatório de Pacientes em ordem alfabética:");
+            foreach (var paciente in pacientesOrdenados)
+            {
+                paciente.Apresentar();
+            }
+        }
+
+        public void RelatorioPacientesPorSintomas(string textoSintomas)
+        {
+            var pacientesFiltrados = pacientes.Where(paciente => paciente.Sintomas.Contains(textoSintomas));
+
+            Console.WriteLine($"\nRelatório de Pacientes com sintomas contendo '{textoSintomas}':");
+            foreach (var paciente in pacientesFiltrados)
+            {
+                paciente.Apresentar();
+            }
+        }
+
+        public void RelatorioAniversariantesDoMes(int mes)
+        {
+            var aniversariantes = medicos.Concat<Pessoa>(pacientes)
+                .Where(p => p.DataNascimento.Month == mes)
+                .OrderBy(p => p.DataNascimento.Day);
+
+            Console.WriteLine($"\nRelatório de Aniversariantes do mês {mes}:");
+            foreach (var pessoa in aniversariantes)
+            {
+                pessoa.Apresentar();
             }
         }
 
@@ -181,6 +254,13 @@ namespace POGDevConsultorio
                 consultorio.AdicionarPaciente(paciente2);
                 consultorio.AdicionarPaciente(paciente3);
                 consultorio.AdicionarPaciente(paciente4);
+
+                consultorio.RelatorioMedicosIdade(30, 50);
+                consultorio.RelatorioPacientesIdade(18, 40);
+                consultorio.RelatorioPacientesSexo(Sexo.Masculino);
+                consultorio.RelatorioPacientesOrdemAlfabetica();
+                consultorio.RelatorioPacientesPorSintomas("Dor");
+                consultorio.RelatorioAniversariantesDoMes(12);
 
                 consultorio.GerarRelatorioPessoas();
             }
