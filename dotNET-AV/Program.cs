@@ -1,84 +1,145 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace POGDevConsultorio
 {
+    // Classe base para Pessoas
     public class Pessoa
     {
-        public string Nome { get; set; }
-        public DateTime DataNascimento { get; set; }
-        public string CPF { get; set; }
+        private string cpf;
+
+        public string Nome { get; private set; }
+        public DateTime DataNascimento { get; private set; }
+        public string CPF
+        {
+            get => cpf;
+            private set
+            {
+                if (value.Length == 11)
+                {
+                    cpf = value;
+                }
+                else
+                {
+                    throw new ArgumentException("O CPF deve ter 11 dígitos.");
+                }
+            }
+        }
 
         public Pessoa(string nome, DateTime dataNascimento, string cpf)
         {
             Nome = nome;
             DataNascimento = dataNascimento;
-            if (cpf.Length == 11)
-            {
-                CPF = cpf;
-            }
-            else
-            {
-                throw new ArgumentException("O CPF deve ter 11 dígitos.");
-            }
+            CPF = cpf;
+        }
+
+        public virtual void Apresentar()
+        {
+            Console.WriteLine($"Nome: {Nome}, Data de Nascimento: {DataNascimento.ToShortDateString()}, CPF: {CPF}");
         }
     }
 
+    // Enum para representar o sexo
+    public enum Sexo
+    {
+        Masculino,
+        Feminino
+    }
+
+    // Classe para representar Pacientes, derivada de Pessoa
+    public class Paciente : Pessoa
+    {
+        public Sexo Sexo { get; private set; }
+        public string Sintomas { get; private set; }
+
+        public Paciente(string nome, DateTime dataNascimento, string cpf, Sexo sexo, string sintomas)
+            : base(nome, dataNascimento, cpf)
+        {
+            Sexo = sexo;
+            Sintomas = sintomas;
+        }
+
+        // Sobrescrevendo o método Apresentar para incluir informações específicas de Paciente
+        public override void Apresentar()
+        {
+            Console.WriteLine($"Paciente - Sexo: {Sexo}, {base.Nome}, {base.DataNascimento.ToShortDateString()}, CPF: {base.CPF}, Sintomas: {Sintomas}");
+        }
+    }
+
+    // Classe para representar Médicos, derivada de Pessoa
     public class Medico : Pessoa
     {
-        public string CRM { get; set; }
+        public string CRM { get; private set; }
 
         public Medico(string nome, DateTime dataNascimento, string cpf, string crm)
             : base(nome, dataNascimento, cpf)
         {
             CRM = crm;
         }
+
+        // Sobrescrevendo o método Apresentar para incluir informações específicas de Médico
+        public override void Apresentar()
+        {
+            Console.WriteLine($"Médico - CRM: {CRM}, {base.Nome}, {base.DataNascimento.ToShortDateString()}, CPF: {base.CPF}");
+        }
     }
 
+    // Classe para representar um Consultório
     public class Consultorio
     {
-
-        private List<Medico> medicos;
+        private List<Pessoa> pessoas;
 
         public Consultorio()
         {
-            medicos = new List<Medico>();
+            pessoas = new List<Pessoa>();
         }
 
-        public void AdicionarMedico(Medico medico)
+        public void AdicionarPessoa(Pessoa pessoa)
         {
-            medicos.Add(medico);
+            pessoas.Add(pessoa);
         }
 
-        public void GerarRelatorioMedicos()
+        public void GerarRelatorioPessoas()
         {
-            Console.WriteLine("Relatório de Médicos:");
+            Console.WriteLine("Relatório de Pessoas:");
 
-            foreach (var medico in medicos)
+            foreach (var pessoa in pessoas)
             {
-                Console.WriteLine($"Nome: {medico.Nome}, CRM: {medico.CRM}");
+                pessoa.Apresentar();
             }
         }
     }
+
     class Program
     {
         static void Main()
         {
             try
             {
-                Medico medico1 = new Medico("Dr. Murilo", new DateTime(1992, 3, 12), "12345678901", "CRM12345");
+                Medico medico1 = new Medico("Dr. Murilo", new DateTime(1992, 12, 3), "12345678901", "CRM12345");
                 Medico medico2 = new Medico("Dr. Carlos", new DateTime(1995, 3, 11), "54398432109", "CRM65421");
-                Medico medico3 = new Medico("Dra. Maria", new DateTime(1985, 5, 10), "98765432109", "CRM54321");
+                Medico medico3 = new Medico("Dra. Maria", new DateTime(1985, 11, 10), "98765432109", "CRM54321");
                 Medico medico4 = new Medico("Dra. Carla", new DateTime(1991, 4, 7), "82514276598", "CRM73416");
+
+                Paciente paciente1 = new Paciente("Goku", new DateTime(2001, 11, 1), "11223344556", Sexo.Masculino, "Enjoo");
+                Paciente paciente2 = new Paciente("Naruto", new DateTime(1988, 9, 16), "99352466554", Sexo.Masculino, "Dor de barriga");
+                Paciente paciente3 = new Paciente("João", new DateTime(2000, 2, 15), "62934254556", Sexo.Masculino, "Febre");
+                Paciente paciente4 = new Paciente("Ana", new DateTime(1998, 7, 20), "99887766554", Sexo.Feminino, "Dor de cabeça");
 
                 Consultorio consultorio = new Consultorio();
 
-                consultorio.AdicionarMedico(medico1);
-                consultorio.AdicionarMedico(medico2);
-                consultorio.AdicionarMedico(medico3);
-                consultorio.AdicionarMedico(medico4);
+                consultorio.AdicionarPessoa(medico1);
+                consultorio.AdicionarPessoa(medico2);
+                consultorio.AdicionarPessoa(medico3);
+                consultorio.AdicionarPessoa(medico4);
+                consultorio.AdicionarPessoa(paciente1);
+                consultorio.AdicionarPessoa(paciente2);
+                consultorio.AdicionarPessoa(paciente3);
+                consultorio.AdicionarPessoa(paciente4);
 
-                consultorio.GerarRelatorioMedicos();
+
+                consultorio.GerarRelatorioPessoas();
             }
             catch (Exception ex)
             {
