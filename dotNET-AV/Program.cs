@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace POGDevConsultorio
 {
-    // Classe base para Pessoas
     public class Pessoa
     {
         private string cpf;
@@ -41,7 +39,6 @@ namespace POGDevConsultorio
         }
     }
 
-    // Enum para representar o sexo
     public enum Sexo
     {
         Masculino,
@@ -84,26 +81,76 @@ namespace POGDevConsultorio
 
     public class Consultorio
     {
-        private List<Pessoa> pessoas;
+        private HashSet<Medico> medicos;
+        private HashSet<Paciente> pacientes;
 
         public Consultorio()
         {
-            pessoas = new List<Pessoa>();
+            medicos = new HashSet<Medico>();
+            pacientes = new HashSet<Paciente>();
         }
 
-        public void AdicionarPessoa(Pessoa pessoa)
+        public void AdicionarMedico(Medico medico)
         {
-            pessoas.Add(pessoa);
+            if (!CRMJaExiste(medico.CRM))
+            {
+                medicos.Add(medico);
+            }
+            else
+            {
+                throw new ArgumentException($"Médico com CRM {medico.CRM} já cadastrado.");
+            }
+        }
+
+        public void AdicionarPaciente(Paciente paciente)
+        {
+            if (!CPFJaExiste(paciente.CPF))
+            {
+                pacientes.Add(paciente);
+            }
+            else
+            {
+                throw new ArgumentException($"Paciente com CPF {paciente.CPF} já cadastrado.");
+            }
         }
 
         public void GerarRelatorioPessoas()
         {
-            Console.WriteLine("Relatório de Pessoas:");
-
-            foreach (var pessoa in pessoas)
+            Console.WriteLine("Relatório de Médicos:");
+            foreach (var medico in medicos)
             {
-                pessoa.Apresentar();
+                medico.Apresentar();
             }
+
+            Console.WriteLine("\nRelatório de Pacientes:");
+            foreach (var paciente in pacientes)
+            {
+                paciente.Apresentar();
+            }
+        }
+
+        private bool CRMJaExiste(string crm)
+        {
+            foreach (var medico in medicos)
+            {
+                if (medico.CRM == crm)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool CPFJaExiste(string cpf)
+        {
+            foreach (var paciente in pacientes)
+            {
+                if (paciente.CPF == cpf)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
@@ -113,6 +160,8 @@ namespace POGDevConsultorio
         {
             try
             {
+                Consultorio consultorio = new Consultorio();
+
                 Medico medico1 = new Medico("Dr. Murilo", new DateTime(1992, 12, 3), "12345678901", "CRM12345");
                 Medico medico2 = new Medico("Dr. Carlos", new DateTime(1995, 3, 11), "54398432109", "CRM65421");
                 Medico medico3 = new Medico("Dra. Maria", new DateTime(1985, 11, 10), "98765432109", "CRM54321");
@@ -123,16 +172,15 @@ namespace POGDevConsultorio
                 Paciente paciente3 = new Paciente("João", new DateTime(2000, 2, 15), "62934254556", Sexo.Masculino, "Febre");
                 Paciente paciente4 = new Paciente("Ana", new DateTime(1998, 7, 20), "99887766554", Sexo.Feminino, "Dor de cabeça");
 
-                Consultorio consultorio = new Consultorio();
+                consultorio.AdicionarMedico(medico1);
+                consultorio.AdicionarMedico(medico2);
+                consultorio.AdicionarMedico(medico3);
+                consultorio.AdicionarMedico(medico4);
 
-                consultorio.AdicionarPessoa(medico1);
-                consultorio.AdicionarPessoa(medico2);
-                consultorio.AdicionarPessoa(medico3);
-                consultorio.AdicionarPessoa(medico4);
-                consultorio.AdicionarPessoa(paciente1);
-                consultorio.AdicionarPessoa(paciente2);
-                consultorio.AdicionarPessoa(paciente3);
-                consultorio.AdicionarPessoa(paciente4);
+                consultorio.AdicionarPaciente(paciente1);
+                consultorio.AdicionarPaciente(paciente2);
+                consultorio.AdicionarPaciente(paciente3);
+                consultorio.AdicionarPaciente(paciente4);
 
                 consultorio.GerarRelatorioPessoas();
             }
